@@ -47,6 +47,7 @@ export default function AllStudentsPage() {
   const [addingCoin, setAddingCoin] = useState(false)
   const [showToast, setShowToast] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
     fetchStudents()
@@ -66,6 +67,12 @@ export default function AllStudentsPage() {
       setLoading(false)
     }
   }
+
+  // Filter students based on search term
+  const filteredStudents = students.filter(student => {
+    const fullName = `${student.firstName} ${student.lastName}`.toLowerCase()
+    return fullName.includes(searchTerm.toLowerCase())
+  })
 
   const handleAddCoin = (student: Student) => {
     setSelectedStudent(student)
@@ -188,17 +195,42 @@ export default function AllStudentsPage() {
         </Link>
       </div>
 
-      {students.length === 0 ? (
+      {/* Search Box */}
+      <div className="mb-6">
+        <div className="form-control w-full max-w-md">
+          <label className="label">
+            <span className="label-text">Search Students</span>
+          </label>
+          <input
+            type="text"
+            placeholder="Search by student name..."
+            className="input input-bordered w-full"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {filteredStudents.length === 0 ? (
         <div className="bg-base-100 shadow-lg rounded-lg p-8 text-center">
-          <h3 className="text-xl font-semibold mb-2">No Students Found</h3>
-          <p className="text-gray-600 mb-4">Start by adding your first student.</p>
-          <Link href="/addStudent" className="btn btn-primary">
-            Add First Student
-          </Link>
+          <h3 className="text-xl font-semibold mb-2">
+            {searchTerm ? 'No Students Found' : 'No Students Found'}
+          </h3>
+          <p className="text-gray-600 mb-4">
+            {searchTerm 
+              ? `No students found matching "${searchTerm}"`
+              : 'Start by adding your first student.'
+            }
+          </p>
+          {!searchTerm && (
+            <Link href="/addStudent" className="btn btn-primary">
+              Add First Student
+            </Link>
+          )}
         </div>
       ) : (
         <div className="space-y-4">
-          {students.map((student) => (
+          {filteredStudents.map((student) => (
             <div
               key={student.id}
               className={`bg-base-100 shadow-lg rounded-lg p-6 border-l-4 ${beltColors[student.belt]} mb-4`}
@@ -243,9 +275,16 @@ export default function AllStudentsPage() {
         </div>
       )}
 
-      {students.length > 0 && (
+      {filteredStudents.length > 0 && (
         <div className="mt-6 text-center text-sm text-gray-600">
-          Total Students: {students.length}
+          {searchTerm ? (
+            <div>
+              <p>Showing {filteredStudents.length} of {students.length} students</p>
+              <p>Search results for: &quot;{searchTerm}&quot;</p>
+            </div>
+          ) : (
+            <p>Total Students: {students.length}</p>
+          )}
         </div>
       )}
     </div>
