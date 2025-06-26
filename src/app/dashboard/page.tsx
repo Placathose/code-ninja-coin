@@ -28,26 +28,28 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen p-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="navbar bg-base-100">
           <div className="flex-1">
             <h1 className="text-xl font-bold">Dashboard</h1>
           </div>
-          <div className="flex-none">
-            <button
-              onClick={() => signOut()}
-              className="btn btn-ghost"
-            >
-              Sign Out
-            </button>
+
+          <div>
+            
           </div>
         </div>
 
-        <div className="card bg-base-100 shadow-xl mt-8">
+        <div className=" flex flex-row items-center card bg-base-100 shadow-xl mt-8">
           <div className="card-body">
             <h2 className="card-title">Welcome, {user.email}!</h2>
             <p>You are now signed in to your account.</p>
           </div>
+          <button
+            onClick={() => signOut()}
+            className="btn btn-ghost"
+          >
+            Sign Out
+          </button>
         </div>
       </div>
     </div>
