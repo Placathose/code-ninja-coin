@@ -26,7 +26,7 @@ function Navbar() {
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
-          <li><Link href="/allStudents">dashboard</Link></li>
+          <li><Link href="/dashboard">dashboard</Link></li>
           {/* <li><Link href="/allStudents">All Students</Link></li> */}
           <li><Link href="/addStudent">Add Student</Link></li>
         </ul>
